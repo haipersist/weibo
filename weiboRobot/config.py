@@ -12,11 +12,11 @@ the file has two config class:auth_config and spider_config
 
 
 class AuthConfig():
-	app_key = '513071462'
-	app_secret = '18298fdf8d645aadf3e8d01cf85d8059'
-	callback_url = 'http://hbnnlove.sinaapp.com'
+	app_key = '3318682448'
+	app_secret = '3d8c513a2dc2358322a25cb40f1790e4'
+	callback_url = 'https://api.weibo.com/oauth2/default.html'
 	userid = '393993705@qq.com'
-	passwd = ''
+	passwd = 'NANAnana320'
 
 
 
