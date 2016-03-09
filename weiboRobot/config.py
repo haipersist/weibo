@@ -16,7 +16,7 @@ class AuthConfig():
 	app_secret = '3d8c513a2dc2358322a25cb40f1790e4'
 	callback_url = 'https://api.weibo.com/oauth2/default.html'
 	userid = '393993705@qq.com'
-	passwd = 'NANAnana320'
+	passwd = ''
 
 
 
