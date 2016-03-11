@@ -2,21 +2,31 @@
 #-*-coding:utf-8-*-
 
 
-from weibo import APIClient
 import requests
-from config import AuthConfig,SpiderConfig
+import os
+import urllib
+import urllib2
+import json
+import sys
+from weibo import APIClient
+from config import AuthConfig,SpiderConfig,CUR_DIR
 
 class WeiboAuth():
 
-	def __init__(self):
+	def __init__(self,passwd):
+		self.passwd = passwd
 		self._set_session()
 		self._set_client()
 	
 	def _set_session(self):
-		self.session = requests.session()
+		self.session = requests.Session()
 		self.spi_cfg = SpiderConfig()
-		self.session.headers['User-Agent'] = self.spi_cfg.user_agent
-		self.session.headers['Host'] = self.spi_cfg.host
+		self.headers = {}
+		self.headers['User-Agent'] = self.spi_cfg.user_agent
+		self.headers['Host'] = self.spi_cfg.host
+		self.headers['path'] = '/oauth2/authorize'
+		self.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+		self.headers['origin'] = 'https://api.weibo.com'
 
 	def _set_client(self):
 		self.auth_cfg = AuthConfig()
@@ -30,39 +40,53 @@ class WeiboAuth():
 		return self.client.get_authorize_url()
 
 	def get_code(self):
+		self.headers['Referer'] = self.get_authorize_url()
+		print self.get_authorize_url()
 		data = {
-			'client_id':self.auth_cfg.app_key,
-			'redirect_url':self.auth_cfg.callback_url,
-			'userId':self.auth_cfg.userid,
-			'passwd':self.auth_cfg.passwd,
-			'isLoginSina':'0',
-			'action':'submit',
-			'response_type':'code'
-		}	
-		print 'refer_url',self.get_authorize_url()
-		self.session.headers['Referer'] = self.get_authorize_url()
-		resp = self.session.post(
-				url = 'https://api.weibo.com/oauth2/authorize',
-				data = data
-				)
-		return resp.url[-32:]
-
+				'action':'login',
+				'display':'default',
+				'withOfficalFlag':'0',
+				'ticket':'',
+				'isLoginSina':'',
+				'response_type':'code',
+				'regCallback':'',
+				'redirect_uri':'https%3A%2F%2Fapi.weibo.com%2Foauth2%2Fdefault.html',
+				'client_id':'3318682448',
+				'appkey62':'5lAqHu',
+				'state':'',
+				'verifyToken':'null',
+				'from':'',
+				'switchLogin':'0',
+				'userId':self.auth_cfg.userid,
+				'passwd':self.passwd
+		}
+		post_data = urllib.urlencode(data)
+		req = urllib2.Request(self.auth_cfg.post_url)
+		opener = urllib2.build_opener(urllib2.HTTPCookieProcessor())
+		header_list = [(key,self.headers[key]) for key in self.headers.keys()]
+		print header_list
+		opener.addheaders = header_list
+		#urllib2.install_opener(opener)
+		resp = opener.open(req,post_data)
+		return resp.read()
 		
-	def set_token(self):
-		token = self.client.request_access_token(self.get_code())
-		print 'token',token
-		self.client.set_access_token(token.access_token,token.expires_in)
-
-	def send_weibo(self):
-		self.client.statuses.update.post(status='test program')
+		
+	def get_token(self):
+		#By far, I can not get code automatically by posting form data
+		#so I got code mannually first,then get token uding this code,and store token 
+		#token can be valid for 5 years.		
+		code = 'd6bc6fe270576aa5a39f61258f73ebd1'  # get code mannually by visiting referer url
+		token = self.client.request_access_token(code)
+		json_token = json.dumps(token)
+		print >>file(os.path.join(CUR_DIR,'token.json'),'w'),json_token
 
 
 
 if __name__ == "__main__":
-	weiboRobot = WeiboAuth()
+	weiboRobot = WeiboAuth(sys.argv[1])
 	print weiboRobot.get_authorize_url()
-#	weiboRobot.set_token()
-#	weiboRobot.send_weibo()
+	weiboRobot.get_token()
+	
 
 	
 

@@ -11,17 +11,24 @@ the file has two config class:auth_config and spider_config
 """
 
 
+import os
+
+
+
+CUR_DIR = '/'.join(os.path.abspath(os.path.dirname(__file__)).split('/')[:-1])
+
 class AuthConfig():
 	app_key = '3318682448'
 	app_secret = '3d8c513a2dc2358322a25cb40f1790e4'
 	callback_url = 'https://api.weibo.com/oauth2/default.html'
+	post_url = 'https://api.weibo.com/oauth2/authorize'
 	userid = '393993705@qq.com'
 	passwd = ''
 
 
 
 class SpiderConfig():
-	user_agent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36 SE 2.X MetaSr 1.0'
+	user_agent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'
 	host = 'api.weibo.com'
 
 
