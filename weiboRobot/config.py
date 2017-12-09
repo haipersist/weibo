@@ -11,18 +11,62 @@ the file has two config class:auth_config and spider_config
 """
 
 
-class AuthConfig():
-	app_key = '3318682448'
-	app_secret = '3d8c513a2dc2358322a25cb40f1790e4'
-	callback_url = 'https://api.weibo.com/oauth2/default.html'
-	userid = '393993705@qq.com'
-	passwd = 'NANAnana320'
 
 
 
-class SpiderConfig():
-	user_agent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36 SE 2.X MetaSr 1.0'
-	host = 'api.weibo.com'
+CALLBACK_URL = 'https://api.weibo.com/oauth2/default.html'
+
+PRE_LOGIN_URL = 'https://login.sina.com.cn/sso/prelogin.php?entry=openapi&callback=sinaSSOController.preloginCallBack' + \
+				'&rsakt=mod&checkpin=1&client=ssologin.js(v1.4.18)'
+
+TICKET_URL = 'https://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.18)'
+
+AUTH_URL = 'https://api.weibo.com/oauth2/authorize'
+
+
+
+TICKET_POST_DATA =  {
+        	'entry': 'openapi',
+        	'gateway': '1',
+            'from':'',
+            'savestate': '0',
+            'userticket': '1',
+            'pagerefer':'',
+            'ct': '1800',
+            's':'1',
+            'vsnf': '1',
+            'vsnval': '',
+            'door':'',
+            #'appkey':'5lAqHu',
+	 		'appkey': '52laFx',
+            'service': 'miniblog',
+			'pwencode': 'rsa2',
+            'sr':'1920*1080',
+            'encoding': 'UTF-8',
+            'cdult':'2',
+            'domain':'weibo.com',
+            'prelt':'46',
+            'returntype': 'TEXT'
+        }
+
+CODE_POST_DATA = {
+    'action': 'login',
+    'display': 'default',
+    'withOfficalFlag': '0',
+    'quick_auth': 'null',
+    'withOfficalAccount': '',
+    'scope': '',
+    'isLoginSina': '',
+    'response_type': 'code',
+    'redirect_uri':CALLBACK_URL,
+    'appkey62': '52laFx',
+    'state': '',
+    'verifyToken': 'null',
+    'from': '',
+    'switchLogin':'0',
+    'userId':'',
+    'passwd':''
+    }
 
 
 
