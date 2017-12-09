@@ -67,7 +67,7 @@ class WeiboAuth(object):
 		code = self.code
 		#By far, I can not get code automatically by posting form data
 		#so I got code mannually first,then get token using this code,and store token
-		#token can be valid for 5 years.		
+		#token can be valid for 5 years.
 		token = self.client.request_access_token(code)
 		self.client.set_access_token(token['access_token'],token['expires_in'])
 
