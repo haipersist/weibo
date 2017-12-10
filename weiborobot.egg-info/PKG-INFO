@@ -1,0 +1,69 @@
+Metadata-Version: 1.1
+Name: weiborobot
+Version: 1.1.3
+Summary: A weibo api for sending weibo automatically
+Home-page: https://github.com/haipersist/weibo
+Author: Haibo Wang
+Author-email: 393993705@qq.com
+License: BSD
+Description: 
+        weiborobot
+        -----
+        
+        Notice:
+        
+        1.it is built on sinaweibopy ,so it only supports python2.7 or python2.6.
+        
+        2.everything should be encoded in unicode.
+        
+        
+        the lib make you can send weibo entirly automatically.instead of getting code
+        by url in the browser.
+        you just input
+        
+           1.your weibo account:username and password
+           2.app:app_key,app_secret
+        
+        ````````````
+        
+        
+        Save in a hello.py:
+        
+        .. code:: python
+        
+            #-*-coding:utf-8-*-
+        
+            from weiborobot import WeiboRobt
+        
+            robot = WeiboRobot('username','password','app_key','app_secret',callback_url=callback_url)
+        	text = 'wffwf'
+        	robot.communicate('/statuses/share','post',status=text)
+            print robot.communicate('/statuses/user_timeline','get')
+        
+        
+        And Easy to Setup
+        `````````````````
+        
+        And run it:
+        
+        .. code:: bash
+        
+            $ pip install weiborobot
+        
+        
+        
+        Links
+        `````
+        * `development version
+          <https://github.com/haipersist/weibo>`_
+        
+        
+Platform: any
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
